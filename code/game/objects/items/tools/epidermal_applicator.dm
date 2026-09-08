@@ -1,13 +1,13 @@
-#define VULP "vulpkanin"
-#define UNATHI "unathi"
-#define TAJARAN "tajaran"
-#define SKRELL "skrell"
-#define DIONA "diona"
-#define NIAN "nian"
-#define DRASK "drask"
-#define GREY "grey"
-#define KIDAN "kidan"
-#define HUMAN "human"
+#define VULP "Vulpkanin"
+#define UNATHI "Unathi"
+#define TAJARAN "Tajaran"
+#define SKRELL "Skrell"
+#define DIONA "Diona"
+#define NIAN "Nian"
+#define DRASK "Drask"
+#define GREY "Grey"
+#define KIDAN "Kidan"
+#define HUMAN "Human"
 
 /obj/item/epidermal_applicator
 	name = "epidermal applicator"
@@ -26,19 +26,19 @@
 
 	var/applying = FALSE
 	/// The species the body part will look like, default is human
-	var/datum/species/chosen_species = /datum/species/human
+	var/datum/species/chosen_species
 	/// List of species to choose a body part to look like
 	var/list/available_species = list(
-		"human" = /datum/species/human,
-		"unathi" = /datum/species/unathi,
-		"vulpkanin" = /datum/species/vulpkanin,
-		"tajaran" = /datum/species/tajaran,
-		"skrell" = /datum/species/skrell,
-		"diona" = /datum/species/diona,
-		"nian" = /datum/species/moth,
-		"drask" = /datum/species/drask,
-		"grey" = /datum/species/grey,
-		"kidan" = /datum/species/kidan,
+		"Human" ,
+		"Unathi" ,
+		"Vulpkanin" ,
+		"Tajaran" ,
+		"Skrell" ,
+		"Diona" ,
+		"Nian" ,
+		"Drask" ,
+		"Grey" ,
+		"Kidan"
 	) // Species not included are special
 
 	//MARK: JOHN DEBUG HERE TO LET YOU KNOW
@@ -57,7 +57,7 @@
 	. = ..()
 
 	. += SPAN_NOTICE("<b>Alt-Click</b> to select a species you want to look like.")
-	. += SPAN_NOTICE("Current chosen species is <b>[chosen_species]</b>.")
+	. += SPAN_NOTICE("Current chosen species is <b>[chosen_species ? chosen_species.name : "None"]</b>.")
 	if(metal_stored >= metal_per_use)
 		. += SPAN_NOTICE("It is loaded and ready to apply an epidermal layer to a body part.")
 	else
@@ -86,12 +86,15 @@
 	return ITEM_INTERACT_COMPLETE
 
 /obj/item/epidermal_applicator/AltClick(mob/user, modifiers)
-	chosen_species = tgui_input_list(user, "Select a species to look like:", "Species Selection", available_species, HUMAN)
+	var/selected_species = available_species[tgui_input_list(user, "Select a species to look like:", "Species Selection", available_species)]
+	log_debug("User [user] selected [selected_species] (species) for epidermal applicator.")
+	chosen_species = GLOB.all_species[selected_species]
 	if(chosen_species.bodyflags & HAS_ICON_SKIN_TONE) // HAS_ICON_SKIN_TONE = human, moth, gray.
 		var/skin_tone_max = length(chosen_species.icon_skin_tones)
-		chosen_skin_tone = tgui_input_number(user, "Select a skin tone: 1-[skin_tone_max] [chosen_species == HUMAN ? "(light to dark)" : ""] ", "Skin Tone Selection", 1, skin_tone_max, 1) // I FUCKING LOVE TURNARY OPERATORS.
+		chosen_skin_tone = tgui_input_number(user, "Select a skin tone: 1-[skin_tone_max] ", "Skin Tone Selection", 1, skin_tone_max) // I FUCKING LOVE TURNARY OPERATORS.
 	if(chosen_species.bodyflags & HAS_SKIN_TONE) // HAS_SKIN_TONE = drask.
-		chosen_skin_tone = tgui_input_number(user, "Choose your character's skin-tone:\n(Light 1 - 220 Dark)", "Character Preference", 1, 220, 1)
+		chosen_skin_tone = tgui_input_number(user, "Choose your character's skin-tone: (Light 1 - 220 Dark)", "Character Preference", 1, 220, 1)
+	log_debug("User [user] selected [chosen_skin_tone] (skin tone) for epidermal applicator.")
 
 
 
