@@ -26,7 +26,7 @@
 
 	var/applying = FALSE
 	/// The species the body part will look like, default is human
-	var/datum/species/chosen_species // Default species
+	var/datum/species/chosen_species = /datum/species/human
 	/// List of species to choose a body part to look like
 	var/list/available_species = list(
 		"human" = /datum/species/human,
@@ -57,6 +57,7 @@
 	. = ..()
 
 	. += SPAN_NOTICE("<b>Alt-Click</b> to select a species you want to look like.")
+	. += SPAN_NOTICE("Current chosen species is <b>[chosen_species]</b>.")
 	if(metal_stored >= metal_per_use)
 		. += SPAN_NOTICE("It is loaded and ready to apply an epidermal layer to a body part.")
 	else
@@ -263,3 +264,4 @@
 #undef DRASK
 #undef GREY
 #undef KIDAN
+#undef HUMAN
