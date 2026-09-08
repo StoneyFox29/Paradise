@@ -255,6 +255,11 @@
 
 	applying = FALSE
 
+/obj/item/epidermal_applicator/aftermarket
+	name = "aftermarket applicator"
+	desc = "A Zeng-Hu Pharmaceuticals epidermal applicator. This one looks a bit cheaply made."
+	origin_tech = "biotech=1;materials=2;engineering=1"
+
 #undef VULP
 #undef UNATHI
 #undef TAJARAN
