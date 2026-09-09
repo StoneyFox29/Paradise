@@ -25,8 +25,10 @@
 	var/metal_per_use = 5
 
 	var/applying = FALSE
-	/// The species the body part will look like, default is human
+	/// The species chsoen Datumized.
 	var/datum/species/chosen_species
+	/// Name of the species chosen String.
+	var/chosen_species_name = null
 	/// List of species to choose a body part to look like
 	var/list/available_species = list(
 		"Human" ,
@@ -86,15 +88,18 @@
 	return ITEM_INTERACT_COMPLETE
 
 /obj/item/epidermal_applicator/AltClick(mob/user, modifiers)
-	var/selected_species = available_species[tgui_input_list(user, "Select a species to look like:", "Species Selection", available_species)]
-	log_debug("User [user] selected [selected_species] (species) for epidermal applicator.")
-	chosen_species = GLOB.all_species[selected_species]
+	chosen_species_name = tgui_input_list(user, "Select a species to look like:", "Species Selection", available_species)
+	if(!chosen_species_name)
+		return
+	log_debug("User [user] selected [chosen_species_name] (species) for epidermal applicator.")
+	chosen_species = GLOB.all_species[chosen_species_name]
 	if(chosen_species.bodyflags & HAS_ICON_SKIN_TONE) // HAS_ICON_SKIN_TONE = human, moth, gray.
 		var/skin_tone_max = length(chosen_species.icon_skin_tones)
-		chosen_skin_tone = tgui_input_number(user, "Select a skin tone: 1-[skin_tone_max] ", "Skin Tone Selection", 1, skin_tone_max) // I FUCKING LOVE TURNARY OPERATORS.
+		chosen_skin_tone = tgui_input_number(user, "Select a skin tone: 1-[skin_tone_max]\n(Light 1 - 220 Dark) ", "Skin Tone Selection", 1, skin_tone_max) // I FUCKING LOVE TURNARY OPERATORS.
 	if(chosen_species.bodyflags & HAS_SKIN_TONE) // HAS_SKIN_TONE = drask.
-		chosen_skin_tone = tgui_input_number(user, "Choose your character's skin-tone: (Light 1 - 220 Dark)", "Character Preference", 1, 220, 1)
+		chosen_skin_tone = tgui_input_number(user, "Choose your character's skin-tone: \n(Light 1 - 220 Dark)", "Character Preference", 1, 220, 1)
 	log_debug("User [user] selected [chosen_skin_tone] (skin tone) for epidermal applicator.")
+
 
 
 
@@ -118,7 +123,9 @@
 		return TRUE
 
 	var/mob/living/carbon/human/target = M
+	//target.synthskin_species = chosen_species
 	var/obj/item/organ/external/affected = target.get_organ(def_zone)
+	affected.synthetic_skin_species = chosen_species
 
 	if(!affected)
 		to_chat(user, SPAN_WARNING("[target] doesn't have a [parse_zone(def_zone)]!"))
