@@ -3,7 +3,7 @@
 	name_plural = "Monkeys"
 	blurb = "Ook."
 
-	icobase = 'icons/mob/human_races/monkeys/r_monkey.dmi'
+	iconbase = 'icons/mob/human_races/monkeys/r_monkey.dmi'
 	damage_overlays = 'icons/mob/human_races/masks/dam_monkey.dmi'
 	damage_mask = 'icons/mob/human_races/masks/dam_mask_monkey.dmi'
 	blood_mask = 'icons/mob/human_races/masks/blood_monkey.dmi'
@@ -71,7 +71,7 @@
 	name = "Farwa"
 	name_plural = "Farwa"
 
-	icobase = 'icons/mob/human_races/monkeys/r_farwa.dmi'
+	iconbase = 'icons/mob/human_races/monkeys/r_farwa.dmi'
 
 	greater_form = /datum/species/tajaran
 	default_language = "Farwa"
@@ -93,7 +93,7 @@
 	name = "Wolpin"
 	name_plural = "Wolpin"
 
-	icobase = 'icons/mob/human_races/monkeys/r_wolpin.dmi'
+	iconbase = 'icons/mob/human_races/monkeys/r_wolpin.dmi'
 
 	greater_form = /datum/species/vulpkanin
 	default_language = "Wolpin"
@@ -115,7 +115,7 @@
 	name = "Neara"
 	name_plural = "Neara"
 
-	icobase = 'icons/mob/human_races/monkeys/r_neara.dmi'
+	iconbase = 'icons/mob/human_races/monkeys/r_neara.dmi'
 
 	greater_form = /datum/species/skrell
 	default_language = "Neara"
@@ -139,7 +139,7 @@
 	name = "Stok"
 	name_plural = "Stok"
 
-	icobase = 'icons/mob/human_races/monkeys/r_stok.dmi'
+	iconbase = 'icons/mob/human_races/monkeys/r_stok.dmi'
 
 	tail = "stoktail"
 	greater_form = /datum/species/unathi
@@ -161,7 +161,7 @@
 /datum/species/monkey/nian_worme
 	name = "nian worme"
 	name_plural = "nian worme"
-	icobase = 'icons/mob/human_races/monkeys/r_worme.dmi'
+	iconbase = 'icons/mob/human_races/monkeys/r_worme.dmi'
 	tail = ""
 	inherent_biotypes = MOB_ORGANIC | MOB_HUMANOID | MOB_BUG
 	bodyflags = BALD | SHAVED

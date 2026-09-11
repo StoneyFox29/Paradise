@@ -250,18 +250,18 @@ GLOBAL_VAR_INIT(record_id_num, 1001)
 	if(H.gender == FEMALE)
 		g = "f"
 
-	var/icon/icobase = head_organ.icobase //At this point all the organs would have the same icobase, so this is just recycling.
+	var/icon/iconbase = head_organ.iconbase //At this point all the organs would have the same iconbase, so this is just recycling.
 
-	preview_icon = new /icon(icobase, "torso_[g]")
+	preview_icon = new /icon(iconbase, "torso_[g]")
 	var/icon/temp
-	temp = new /icon(icobase, "groin_[g]")
+	temp = new /icon(iconbase, "groin_[g]")
 	preview_icon.Blend(temp, ICON_OVERLAY)
 	var/head = "head"
 	if(head_organ.alt_head && head_organ.dna.species.bodyflags & HAS_ALT_HEADS)
 		var/datum/sprite_accessory/alt_heads/alternate_head = GLOB.alt_heads_list[head_organ.alt_head]
 		if(alternate_head.icon_state)
 			head = alternate_head.icon_state
-	temp = new /icon(icobase, "[head]_[g]")
+	temp = new /icon(iconbase, "[head]_[g]")
 	preview_icon.Blend(temp, ICON_OVERLAY)
 
 	//Tail

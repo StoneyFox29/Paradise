@@ -2,7 +2,7 @@
 	name = "Plasmaman"
 	name_plural = "Plasmamen"
 	max_age = 150
-	icobase = 'icons/mob/human_races/r_plasmaman_sb.dmi'
+	iconbase = 'icons/mob/human_races/r_plasmaman_sb.dmi'
 	dangerous_existence = TRUE //So so much
 	//language = "Clatter"
 

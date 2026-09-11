@@ -1,7 +1,7 @@
 /datum/species/grey
 	name = "Grey"
 	name_plural = "Greys"
-	icobase = 'icons/mob/human_races/grey/r_grey.dmi'
+	iconbase = 'icons/mob/human_races/grey/r_grey.dmi'
 	language = "Psionic Communication"
 
 	blurb = "The Grey, known for their psionic abilities and unique appearance, hail from beyond the Milky Way and have an undisclosed homeworld. \
@@ -42,18 +42,18 @@
 
 /datum/species/grey/updatespeciescolor(mob/living/carbon/human/H, owner_sensitive = 1) //Handling species-specific skin-tones for the grey race.
 	if(H.dna.species.bodyflags & HAS_ICON_SKIN_TONE)
-		var/new_icobase = 'icons/mob/human_races/grey/r_grey.dmi' //Default grey.
+		var/new_iconbase = 'icons/mob/human_races/grey/r_grey.dmi' //Default grey.
 		switch(H.s_tone)
 			if(4) //red Grey.
-				new_icobase = 'icons/mob/human_races/grey/r_grey_red.dmi'
+				new_iconbase = 'icons/mob/human_races/grey/r_grey_red.dmi'
 			if(3) //blue grey.
-				new_icobase = 'icons/mob/human_races/grey/r_grey_blue.dmi'
+				new_iconbase = 'icons/mob/human_races/grey/r_grey_blue.dmi'
 			if(2) //green grey.
-				new_icobase = 'icons/mob/human_races/grey/r_grey_green.dmi'
+				new_iconbase = 'icons/mob/human_races/grey/r_grey_green.dmi'
 			else  //Default.
-				new_icobase = 'icons/mob/human_races/grey/r_grey.dmi'
+				new_iconbase = 'icons/mob/human_races/grey/r_grey.dmi'
 
-		H.change_icobase(new_icobase, owner_sensitive) //Update the icobase of all our organs, but make sure we don't mess with frankenstein limbs in doing so.
+		H.change_iconbase(new_iconbase, owner_sensitive) //Update the iconbase of all our organs, but make sure we don't mess with frankenstein limbs in doing so.
 
 /datum/species/grey/handle_dna(mob/living/carbon/human/H, remove)
 	..()

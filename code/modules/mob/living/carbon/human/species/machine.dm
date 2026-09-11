@@ -8,7 +8,7 @@
 	Views on IPCs vary widely between groups across the sector, ranging from openly discriminatory, to supportive of their rights. \
 	In recent years, IPCs have formed diplomatic relations with various governments in the sector, elevating their status from tools and assistants to minor players in interstellar affairs."
 
-	icobase = 'icons/mob/human_races/r_machine.dmi'
+	iconbase = 'icons/mob/human_races/r_machine.dmi'
 	language = "Trinary"
 	remains_type = /obj/effect/decal/remains/robot
 	inherent_factions = list("slime")

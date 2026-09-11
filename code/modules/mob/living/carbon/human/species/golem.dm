@@ -3,7 +3,7 @@
 	name_plural = "Golems"
 	max_age = 300
 
-	icobase = 'icons/mob/human_races/r_golem.dmi'
+	iconbase = 'icons/mob/human_races/r_golem.dmi'
 
 	species_traits = list(NO_BLOOD, NO_HAIR, NOT_SELECTABLE)
 	inherent_traits = list(TRAIT_RESISTHEAT, TRAIT_NOBREATH, TRAIT_RESISTCOLD, TRAIT_RESISTHIGHPRESSURE, TRAIT_RESISTLOWPRESSURE, TRAIT_NOFIRE, TRAIT_CHUNKYFINGERS, TRAIT_RADIMMUNE, TRAIT_PIERCEIMMUNE, TRAIT_NOPAIN, TRAIT_NO_BONES, TRAIT_STURDY_LIMBS, TRAIT_XENO_IMMUNE, TRAIT_BURN_WOUND_IMMUNE)
@@ -670,7 +670,7 @@
 
 /datum/species/golem/cloth
 	name = "Cloth Golem"
-	icobase = 'icons/mob/human_races/r_cloth_golem.dmi'
+	iconbase = 'icons/mob/human_races/r_cloth_golem.dmi'
 	flesh_color = "#E9E9E9"
 	blood_color = "#E9E9E9"
 	info_text = "As a <span class='danger'>Cloth Golem</span>, you are able to reform yourself after death, provided your remains aren't burned or destroyed. You are, of course, very flammable. \

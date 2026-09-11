@@ -19,7 +19,7 @@
 	While a great deal of Slime People prefer the comforts and traditions of their home system and the Federation, a number have decided to take their chances in the wider sector, in \
 	search of adventure, profit, and freedom among the stars."
 
-	icobase = 'icons/mob/human_races/r_slime.dmi'
+	iconbase = 'icons/mob/human_races/r_slime.dmi'
 	remains_type = /obj/effect/decal/remains/slime
 	inherent_factions = list("slime")
 

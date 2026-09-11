@@ -2,7 +2,7 @@
 	name = "Shadow"
 	name_plural = "Shadows"
 
-	icobase = 'icons/mob/human_races/r_shadow.dmi'
+	iconbase = 'icons/mob/human_races/r_shadow.dmi'
 	dangerous_existence = TRUE
 	inherent_factions = list("faithless")
 

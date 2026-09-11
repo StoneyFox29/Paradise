@@ -2,7 +2,7 @@
 	name = "Unathi"
 	name_plural = "Unathi"
 	article_override = "a"  // it's pronounced "you-nah-thee"
-	icobase = 'icons/mob/human_races/r_lizard.dmi'
+	iconbase = 'icons/mob/human_races/r_lizard.dmi'
 	language = "Sinta'unathi"
 	tail = "sogtail"
 	unarmed_type = /datum/unarmed_attack/claws

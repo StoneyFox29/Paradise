@@ -2,7 +2,7 @@
 	name = "Drask"
 	name_plural = "Drask"
 	max_age = 500
-	icobase = 'icons/mob/human_races/r_drask.dmi'
+	iconbase = 'icons/mob/human_races/r_drask.dmi'
 	language = "Orluum"
 	eyes = "drask_eyes_s"
 

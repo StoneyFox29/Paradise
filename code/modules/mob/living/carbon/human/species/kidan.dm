@@ -1,7 +1,7 @@
 /datum/species/kidan
 	name = "Kidan"
 	name_plural = "Kidan"
-	icobase = 'icons/mob/human_races/r_kidan.dmi'
+	iconbase = 'icons/mob/human_races/r_kidan.dmi'
 	language = "Chittin"
 	meat_type = /obj/item/food/meat/human
 

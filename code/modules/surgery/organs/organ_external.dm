@@ -18,7 +18,7 @@
 	var/model
 	var/force_icon
 
-	var/icobase = 'icons/mob/human_races/r_human.dmi'		// Normal icon set.
+	var/iconbase = 'icons/mob/human_races/r_human.dmi'		// Normal icon set.
 
 	var/damage_state = "00"
 	var/brute_dam = 0
@@ -131,7 +131,7 @@
 	. = ..()
 	if(ishuman(holder))
 		var/mob/living/carbon/human/H = holder
-		icobase = H.dna.species.icobase
+		iconbase = H.dna.species.iconbase
 		replaced(H)
 		sync_colour_to_human(H)
 		properly_attached = TRUE

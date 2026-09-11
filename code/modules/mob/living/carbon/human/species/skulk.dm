@@ -2,7 +2,7 @@
 	name = "Skkulakin"
 	name_plural = "Skkulakin"
 	max_age = 70
-	icobase = 'icons/mob/human_races/skulk/r_skulkbrown.dmi'
+	iconbase = 'icons/mob/human_races/skulk/r_skulkbrown.dmi'
 	language = "Skkula-Runespeak"
 	unarmed_type = /datum/unarmed_attack/claws
 
@@ -82,7 +82,7 @@
 
 /datum/species/skulk/updatespeciescolor(mob/living/carbon/human/H, owner_sensitive = 1) // Handling species-specific skin-tones for the Skulk race.
 	if(H.dna.species.bodyflags & HAS_ICON_SKIN_TONE)
-		var/new_icobase = 'icons/mob/human_races/skulk/r_skulkblack.dmi' // Default Blackgate Skkulakin.
+		var/new_iconbase = 'icons/mob/human_races/skulk/r_skulkblack.dmi' // Default Blackgate Skkulakin.
 		var/current_spine_type = null
 		if(H.body_accessory)
 			current_spine_type = lowertext("[H.body_accessory.name]")
@@ -90,27 +90,27 @@
 		var/chosen_spine_color = 1
 		switch(H.s_tone)
 			if(1) // Blackgate Skkulakin.
-				new_icobase = 'icons/mob/human_races/skulk/r_skulkblack.dmi'
+				new_iconbase = 'icons/mob/human_races/skulk/r_skulkblack.dmi'
 				chosen_spine_color = 1
 			if(2) // Talwyrm Skkulakin.
-				new_icobase = 'icons/mob/human_races/skulk/r_skulkbrown.dmi'
+				new_iconbase = 'icons/mob/human_races/skulk/r_skulkbrown.dmi'
 				chosen_spine_color = 2
 			if(3) // Valcore Skkulakin.
-				new_icobase = 'icons/mob/human_races/skulk/r_skulkred.dmi'
+				new_iconbase = 'icons/mob/human_races/skulk/r_skulkred.dmi'
 				chosen_spine_color = 3
 			if(4) // Ossya Skkulakin.
-				new_icobase = 'icons/mob/human_races/skulk/r_skulkblue.dmi'
+				new_iconbase = 'icons/mob/human_races/skulk/r_skulkblue.dmi'
 				chosen_spine_color = 4
 			if(5) // Highfield Skkulakin.
-				new_icobase = 'icons/mob/human_races/skulk/r_skulkgreen.dmi'
+				new_iconbase = 'icons/mob/human_races/skulk/r_skulkgreen.dmi'
 				chosen_spine_color = 5
 			if(6) // Votum-Accorium Skkulakin.
-				new_icobase = 'icons/mob/human_races/skulk/r_skulkwhite.dmi'
+				new_iconbase = 'icons/mob/human_races/skulk/r_skulkwhite.dmi'
 				chosen_spine_color = 6
 		if(H.body_accessory && current_spine_type)
 			H.spines = "[current_spine_type][chosen_spine_color]"
 
-		H.change_icobase(new_icobase, owner_sensitive)
+		H.change_iconbase(new_iconbase, owner_sensitive)
 
 /datum/action/innate/spin_silk
 	name = "Spin Silk"

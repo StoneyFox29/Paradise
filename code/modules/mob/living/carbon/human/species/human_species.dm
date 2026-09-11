@@ -35,34 +35,34 @@
 
 /datum/species/human/updatespeciescolor(mob/living/carbon/human/H, owner_sensitive = 1) //Handling species-specific skin-tones for humans We can't have everyone be white.
 	if(H.dna.species.bodyflags & HAS_ICON_SKIN_TONE)
-		var/new_icobase = 'icons/mob/human_races/r_human.dmi' //Default White, counts as 1.
+		var/new_iconbase = 'icons/mob/human_races/r_human.dmi' //Default White, counts as 1.
 		switch(H.s_tone)
 			if(13)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_chestnut.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_chestnut.dmi'
 			if(12)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_Coffee.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_Coffee.dmi'
 			if(11)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_caramel.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_caramel.dmi'
 			if(10)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_bronzed.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_bronzed.dmi'
 			if(9)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_almond.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_almond.dmi'
 			if(8)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_sienna.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_sienna.dmi'
 			if(7)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_latte.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_latte.dmi'
 			if(6)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_beige.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_beige.dmi'
 			if(5)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_Oliverandcompany.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_Oliverandcompany.dmi'
 			if(4)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_Olive.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_Olive.dmi'
 			if(3)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_classic.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_classic.dmi'
 			if(2)
-				new_icobase = 'icons/mob/human_races/human_skintones/r_human_pale.dmi'
+				new_iconbase = 'icons/mob/human_races/human_skintones/r_human_pale.dmi'
 
-		H.change_icobase(new_icobase, owner_sensitive) //Update the icobase of all our organs, but make sure we don't mess with frankenstein limbs in doing so.
+		H.change_iconbase(new_iconbase, owner_sensitive) //Update the iconbase of all our organs, but make sure we don't mess with frankenstein limbs in doing so.
 
 /datum/species/human/randomize_gender()
 	return pickweight(list(MALE = 40, FEMALE = 40, PLURAL = 20))

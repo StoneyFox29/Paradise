@@ -8,7 +8,7 @@
 /datum/species/tajaran
 	name = "Tajaran"
 	name_plural = "Tajaran"
-	icobase = 'icons/mob/human_races/r_tajaran.dmi'
+	iconbase = 'icons/mob/human_races/r_tajaran.dmi'
 	language = "Siik'tajr"
 	tail = "tajtail"
 	unarmed_type = /datum/unarmed_attack/claws

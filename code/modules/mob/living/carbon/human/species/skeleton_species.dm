@@ -5,7 +5,7 @@
 
 	blurb = "Spoopy and scary."
 
-	icobase = 'icons/mob/human_races/r_skeleton.dmi'
+	iconbase = 'icons/mob/human_races/r_skeleton.dmi'
 
 	blood_color = "#FFFFFF"
 	flesh_color = "#E6E6C6"

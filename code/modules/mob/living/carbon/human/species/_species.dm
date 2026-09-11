@@ -7,7 +7,10 @@
 	/// Article to use when referring to an individual of the species, if pronunciation is different from expected.
 	/// Because it's unathi's turn to be special snowflakes.
 	var/article_override
-	var/icobase = 'icons/mob/human_races/r_human.dmi'    // Normal icon set.
+	/// Icon set for the species.
+	var/iconbase = 'icons/mob/human_races/r_human.dmi'    // Normal icon set.
+
+	// THIS HAS BEEN BULSHITTING ME FOR 3 DAYS.
 
 	/// Minimum age this species can have
 	var/min_age = AGE_MIN
@@ -453,7 +456,7 @@
 		for(var/i in inherent_factions)
 			H.faction -= i
 
-/datum/species/proc/updatespeciescolor(mob/living/carbon/human/H) //Handles changing icobase for species that have multiple skin colors.
+/datum/species/proc/updatespeciescolor(mob/living/carbon/human/H) //Handles changing iconbase for species that have multiple skin colors.
 	return
 
 // Do species-specific reagent handling here

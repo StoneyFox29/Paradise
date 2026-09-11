@@ -5,7 +5,7 @@
 	name = "Nian"
 	name_plural = "Nianae"
 	language = "Tkachi"
-	icobase = 'icons/mob/human_races/nian/r_moth.dmi'
+	iconbase = 'icons/mob/human_races/nian/r_moth.dmi'
 	inherent_factions = list("nian")
 	species_traits = list()
 	inherent_biotypes = MOB_ORGANIC | MOB_HUMANOID | MOB_BUG
@@ -65,18 +65,18 @@
 
 /datum/species/moth/updatespeciescolor(mob/living/carbon/human/H, owner_sensitive = 1) //Handling species-specific skin-tones for the nian race.
 	if(H.dna.species.bodyflags & HAS_ICON_SKIN_TONE)
-		var/new_icobase = 'icons/mob/human_races/nian/r_moth.dmi' //Default nian.
+		var/new_iconbase = 'icons/mob/human_races/nian/r_moth.dmi' //Default nian.
 		switch(H.s_tone)
 			if(4) //Purple Nian.
-				new_icobase = 'icons/mob/human_races/nian/r_moth_purple.dmi'
+				new_iconbase = 'icons/mob/human_races/nian/r_moth_purple.dmi'
 			if(3) //Darker Nian.
-				new_icobase = 'icons/mob/human_races/nian/r_moth_dark.dmi'
+				new_iconbase = 'icons/mob/human_races/nian/r_moth_dark.dmi'
 			if(2) //Lighter Nian.
-				new_icobase = 'icons/mob/human_races/nian/r_moth_cream.dmi'
+				new_iconbase = 'icons/mob/human_races/nian/r_moth_cream.dmi'
 			else  //Default.
-				new_icobase = 'icons/mob/human_races/nian/r_moth.dmi'
+				new_iconbase = 'icons/mob/human_races/nian/r_moth.dmi'
 
-		H.change_icobase(new_icobase, owner_sensitive) //Update the icobase of all our organs, but make sure we don't mess with frankenstein limbs in doing so.
+		H.change_iconbase(new_iconbase, owner_sensitive) //Update the iconbase of all our organs, but make sure we don't mess with frankenstein limbs in doing so.
 
 /datum/species/moth/on_species_gain(mob/living/carbon/human/H)
 	..()

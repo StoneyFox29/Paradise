@@ -12,14 +12,14 @@
 		overlays += organ.mob_icon
 		child_icons += organ.mob_icon
 
-/obj/item/organ/external/proc/change_organ_icobase(new_icobase, owner_sensitive) //Change the icobase of this organ. If owner_sensitive is set, that means the proc won't mess with frankenstein limbs.
-	if(owner_sensitive) //This and the below statements mean that the icobase will only get updated if the limb is the same species as and is owned by the mob it's attached to.
+/obj/item/organ/external/proc/change_organ_iconbase(new_iconbase, owner_sensitive) //Change the iconbase of this organ. If owner_sensitive is set, that means the proc won't mess with frankenstein limbs.
+	if(owner_sensitive) //This and the below statements mean that the iconbase will only get updated if the limb is the same species as and is owned by the mob it's attached to.
 		if(dna.species && owner.dna.species && dna.species.name != owner.dna.species.name)
 			return
 		if(dna.unique_enzymes != owner.dna.unique_enzymes) // This isn't MY arm
 			return
 
-	icobase = new_icobase ? new_icobase : icobase
+	iconbase = new_iconbase ? new_iconbase : iconbase
 
 /obj/item/organ/external/proc/sync_colour_to_human(mob/living/carbon/human/H)
 	if(is_robotic() && !istype(dna.species, /datum/species/machine)) //machine people get skin color
@@ -42,7 +42,7 @@
 		s_col = H.skin_colour
 	if(H.dna.species.bodyflags & HAS_ICON_SKIN_TONE)
 		var/obj/item/organ/external/chest/C = H.get_organ("chest")
-		change_organ_icobase(C.icobase)
+		change_organ_iconbase(C.iconbase)
 
 /obj/item/organ/external/proc/sync_colour_to_dna()
 	if(is_robotic())
@@ -176,10 +176,14 @@
 		else if(is_robotic() && !has_synthetic_skin)
 			icon_file = 'icons/mob/human_races/robotic.dmi'
 		else if(has_synthetic_skin && dna.species && istype(dna.species, /datum/species/machine))
-			icon_file = synthetic_skin_species.icobase
+			log_debug("[synthetic_skin_species]")
+			var/datum/species/synthetic_skin_species2 = GLOB.all_species[synthetic_skin_species]
+			log_debug("Skin of the limb [limb_name] is [synthetic_skin_species2]")
+			if(synthetic_skin_species2.iconbase)
+			icon_file = synthetic_skin_species2.iconbase
 		else
 			// Congratulations, you are normal
-			icon_file = icobase
+			icon_file = iconbase
 	return list(icon_file, new_icon_state)
 
 // new damage icon system

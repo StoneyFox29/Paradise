@@ -675,7 +675,7 @@
 	if(body_type == FEMALE)
 		g = "f"
 
-	var/icon/icobase
+	var/icon/iconbase
 	var/datum/species/current_species = GLOB.all_species[species]
 
 	//Icon-based species colour.
@@ -687,24 +687,24 @@
 			H.s_tone = s_tone
 			H.dna.species.updatespeciescolor(H, 0) //The mob's species wasn't set, so it's almost certainly different than the character's species at the moment. Thus, we need to be owner-insensitive.
 			var/obj/item/organ/external/chest/C = H.get_organ("chest")
-			icobase = C.icobase ? C.icobase : C.dna.species.icobase
+			iconbase = C.iconbase ? C.iconbase : C.dna.species.iconbase
 			if(H.dna.species.bodyflags & HAS_TAIL)
 				coloured_tail = H.tail ? H.tail : H.dna.species.tail
 
 			qdel(H)
 		else
-			icobase = current_species.icobase
+			iconbase = current_species.iconbase
 	else
-		icobase = 'icons/mob/human_races/r_human.dmi'
+		iconbase = 'icons/mob/human_races/r_human.dmi'
 
-	preview_icon = new /icon(icobase, "torso_[g]")
-	preview_icon.Blend(new /icon(icobase, "groin_[g]"), ICON_OVERLAY)
+	preview_icon = new /icon(iconbase, "torso_[g]")
+	preview_icon.Blend(new /icon(iconbase, "groin_[g]"), ICON_OVERLAY)
 	var/head = "head"
 	if(alt_head && current_species.bodyflags & HAS_ALT_HEADS)
 		var/datum/sprite_accessory/alt_heads/H = GLOB.alt_heads_list[alt_head]
 		if(H.icon_state)
 			head = H.icon_state
-	preview_icon.Blend(new /icon(icobase, "[head]_[g]"), ICON_OVERLAY)
+	preview_icon.Blend(new /icon(iconbase, "[head]_[g]"), ICON_OVERLAY)
 
 	for(var/name in list("chest", "groin", "head", "r_arm", "r_hand", "r_leg", "r_foot", "l_leg", "l_foot", "l_arm", "l_hand"))
 		if(organ_data[name] == "amputated")
@@ -719,7 +719,7 @@
 				name = "torso"
 			preview_icon.Blend(icon(R.icon, "[name]"), ICON_OVERLAY) // This doesn't check gendered_icon. Not an issue while only limbs can be robotic.
 			continue
-		preview_icon.Blend(new /icon(icobase, "[name]"), ICON_OVERLAY)
+		preview_icon.Blend(new /icon(iconbase, "[name]"), ICON_OVERLAY)
 
 	// Skin color
 	if(current_species && (current_species.bodyflags & HAS_SKIN_COLOR))
