@@ -56,8 +56,8 @@
 
 	// If an IPC's covered in synthetic skin, they can appear human.
 	if(calculate_ipc_masquerade_status())
-		displayed_species = "Human"
-		examine_color = "#d1aa2e"
+		displayed_species = src.ipc_masqurade_species.name
+		examine_color = src.ipc_masqurade_species.flesh_color
 
 	if(skip_jumpsuit && skip_face || HAS_TRAIT(src, TRAIT_NOEXAMINE)) //either obscured or on the nospecies list
 		msg += "!"    //omit the species when examining

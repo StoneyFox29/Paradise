@@ -118,6 +118,8 @@
 	COOLDOWN_DECLARE(skittish_cooldown)
 	/// Cache whether or not an IPC appears human during examine to avoid needless recalculation
 	var/ipc_masquerade_status
+	/// The species the IPCs synthetic skin will look like.
+	var/datum/species/ipc_masqurade_species
 
 /mob/living/carbon/human/fake
 	flags = ABSTRACT

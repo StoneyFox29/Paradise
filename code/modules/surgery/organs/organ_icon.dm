@@ -176,11 +176,7 @@
 		else if(is_robotic() && !has_synthetic_skin)
 			icon_file = 'icons/mob/human_races/robotic.dmi'
 		else if(has_synthetic_skin && dna.species && istype(dna.species, /datum/species/machine))
-			log_debug("[synthetic_skin_species]")
-			var/datum/species/synthetic_skin_species2 = GLOB.all_species[synthetic_skin_species]
-			log_debug("Skin of the limb [limb_name] is [synthetic_skin_species2]")
-			if(synthetic_skin_species2.iconbase)
-			icon_file = synthetic_skin_species2.iconbase
+			icon_file = synthetic_skin_species.iconbase
 		else
 			// Congratulations, you are normal
 			icon_file = iconbase

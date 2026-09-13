@@ -25,10 +25,8 @@
 	var/metal_per_use = 5
 
 	var/applying = FALSE
-	/// The species chsoen Datumized.
+	/// The species chosen, Datumized.
 	var/datum/species/chosen_species
-	/// Name of the species chosen String.
-	var/chosen_species_name = null
 	/// List of species to choose a body part to look like
 	var/list/available_species = list(
 		"Human" ,
@@ -88,14 +86,14 @@
 	return ITEM_INTERACT_COMPLETE
 
 /obj/item/epidermal_applicator/AltClick(mob/user, modifiers)
-	chosen_species_name = tgui_input_list(user, "Select a species to look like:", "Species Selection", available_species)
+	var/chosen_species_name = tgui_input_list(user, "Select a species to look like:", "Species Selection", available_species)
 	if(!chosen_species_name)
 		return
 	log_debug("User [user] selected [chosen_species_name] (species) for epidermal applicator.")
 	chosen_species = GLOB.all_species[chosen_species_name]
 	if(chosen_species.bodyflags & HAS_ICON_SKIN_TONE) // HAS_ICON_SKIN_TONE = human, moth, gray.
 		var/skin_tone_max = length(chosen_species.icon_skin_tones)
-		chosen_skin_tone = tgui_input_number(user, "Select a skin tone: 1-[skin_tone_max]\n(Light 1 - 220 Dark) ", "Skin Tone Selection", 1, skin_tone_max) // I FUCKING LOVE TURNARY OPERATORS.
+		chosen_skin_tone = tgui_input_number(user, "Select a skin tone: 1-[skin_tone_max]\n(Light 1 - [skin_tone_max] Dark) ", "Skin Tone Selection", 1, skin_tone_max)
 	if(chosen_species.bodyflags & HAS_SKIN_TONE) // HAS_SKIN_TONE = drask.
 		chosen_skin_tone = tgui_input_number(user, "Choose your character's skin-tone: \n(Light 1 - 220 Dark)", "Character Preference", 1, 220, 1)
 	log_debug("User [user] selected [chosen_skin_tone] (skin tone) for epidermal applicator.")
@@ -123,9 +121,9 @@
 		return TRUE
 
 	var/mob/living/carbon/human/target = M
-	//target.synthskin_species = chosen_species
+	target.ipc_masqurade_species = chosen_species
 	var/obj/item/organ/external/affected = target.get_organ(def_zone)
-	affected.synthetic_skin_species = chosen_species
+	//affected.synthetic_skin_species = chosen_species
 
 	if(!affected)
 		to_chat(user, SPAN_WARNING("[target] doesn't have a [parse_zone(def_zone)]!"))
@@ -155,6 +153,46 @@
 	// Start application process
 	apply_synthetic_skin(target, affected, user, def_zone)
 	return TRUE
+
+/obj/item/epidermal_applicator/proc/apply_synthetic_species(mob/living/carbon/human/target, mob/living/user, def_zone)
+	applying = TRUE
+
+	var/chosen_identity2 = "Unknown" // Default identity.
+	var/list/identity_choices = list("Unknown") // List of Names to choose from.
+
+	// Add real name option.
+	if(target.dna?.real_name)
+		var/real_name_choice = "[target.dna.real_name]"
+		identity_choices += real_name_choice
+
+	var/obj/item/offhand_item = user.get_inactive_hand()
+	var/offhand_id_name
+	if(istype(offhand_item, /obj/item/card/id))
+		var/obj/item/card/id/id_card = offhand_item
+		offhand_id_name = id_card.registered_name
+	else if(is_pda(offhand_item))
+		var/obj/item/pda/pda = offhand_item
+		offhand_id_name = pda.owner
+
+	// Add ID name option if found
+	if(offhand_id_name && offhand_id_name != "")
+		var/id_name_choice = "[offhand_id_name]"
+		identity_choices += id_name_choice
+
+	// Promt user to choose an identity.
+	chosen_identity2 = tgui_input_list(user, "Choose facial identity:", "Identity Selection", identity_choices)
+	if(!chosen_identity2)
+		applying = FALSE
+		return // Cancel if no choice made.
+
+	for(var/obj/item/organ/external/affected as anything in target.bodyparts)
+		if(!affected || !affected.is_robotic())
+			continue
+		if(affected.has_synthetic_skin)
+			continue
+		metal_stored -= metal_per_use
+		affected.has_synthetic_skin = TRUE
+		affected.synthetic_skin_species = chosen_species
 
 /obj/item/epidermal_applicator/proc/apply_synthetic_skin(mob/living/carbon/human/target, obj/item/organ/external/affected, mob/living/user, def_zone)
 	applying = TRUE
@@ -214,6 +252,7 @@
 
 		// Apply synthetic skin
 		affected.has_synthetic_skin = TRUE
+		affected.synthetic_skin_species = chosen_species
 
 		// Apply owner skin color to synthetic skin
 		if(ishuman(target))
