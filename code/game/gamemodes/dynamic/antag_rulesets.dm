@@ -219,6 +219,13 @@
 	antag_weight = 2
 	antagonist_type = /datum/antagonist/traitor
 
+/datum/ruleset/traitor/malf
+	name = "Malfunctioning AI"
+	ruleset_weight =
+	ruleset_cost =
+	antag_weight =
+	antagonist_type = /datum/antagonist/traitor/malf
+
 /datum/ruleset/traitor/roundstart_post_setup(datum/game_mode/dynamic)
 	latespawn_time = rand(5 MINUTES, 15 MINUTES)
 	for(var/datum/mind/antag as anything in pre_antags)
