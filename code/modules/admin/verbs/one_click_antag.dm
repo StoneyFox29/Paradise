@@ -11,6 +11,7 @@
 		<a href='byond://?src=[UID()];makeAntag=8'>Make Mindflayers</a><br>
 		<a href='byond://?src=[UID()];makeAntag=9'>Make Event Characters</a><br>
 		<a href='byond://?src=[UID()];makeAntag=10'>Make Heretics</a><br>
+		<a href='byond://?src=[UID()];makeAntag=11'>Make Malfunctioning AI</a><br>
 		"}
 	usr << browse(dat, "window=oneclickantag;size=400x400")
 	return
@@ -339,6 +340,31 @@
 		return 1
 	return 0
 
+/datum/admins/proc/makeMalf()
+	var/datum/game_mode/traitor/temp = new
+
+	if(GLOB.configuration.gamemode.prevent_mindshield_antags)
+		temp.restricted_jobs += temp.protected_jobs
+
+	var/input_num = input(owner, "How many Malfunctioning AIs you want to create? Enter 0 to cancel","Amount:", 0) as num|null
+	if(input_num <= 0 || isnull(input_num))
+		qdel(temp)
+		return FALSE
+
+	log_admin("[key_name(owner)] tried making [input_num] Malfunctioning AIs with One-Click-Antag")
+	message_admins("[key_name_admin(owner)] tried making [input_num] Malfunctioning AIs with One-Click-Antag")
+	var/list/possible_malfs = temp.get_players_for_role(ROLE_MALF, FALSE)
+	var/num_malfs = min(length(possible_malfs), input_num)
+	if(!num_malfs)
+		return FALSE
+	for(var/i in 1 to num_malfs)
+		var/datum/mind/malf = pick_n_take(possible_malfs)
+		if(!is_ai(malf.current))
+			continue
+		malf.make_malf()
+		message_admins("[key_name(owner)] made [key_name_admin(malf)] a Malfunctioning AI with One-Click-Antag")
+	qdel(temp)
+	return TRUE
 
 /datum/admins/proc/makeEventCharacters()
 	var/list/mob/living/carbon/human/candidates = list()
