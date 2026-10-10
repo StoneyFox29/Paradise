@@ -4,15 +4,17 @@
 // crit percent
 #define MALF_AI_ROLL_CRIT_CHANCE 5
 
-//The malf AI spell subtype. All malf actions are subtypes of this.
+/// The malf AI spell subtype. All malf actions are subtypes of this.
 /datum/spell/ai_spell
 	name = "AI Spell"
 	desc = "You aren't entirely sure what this does, but it's very beepy and boopy."
 	action_background_icon_state = "bg_tech_blue"
 	clothes_req = FALSE
 	base_cooldown = 0
-	var/uses //If we have multiple uses of the same power
-	var/auto_use_uses = TRUE //If we automatically use up uses on each activation
+	/// If we have multiple uses of the same power.
+	var/uses
+	/// If we automatically use up uses on each activation.
+	var/auto_use_uses = TRUE
 	antimagic_flags = NONE
 	/// Is this spell an AI program?
 	var/datum/ai_program/program
@@ -86,7 +88,7 @@
 		return FALSE
 	return TRUE
 
-//Framework for ranged abilities that can have different effects by left-clicking stuff.
+/// Framework for ranged abilities that can have different effects by left-clicking stuff.
 /datum/spell/ai_spell/ranged
 	name = "Ranged AI Action"
 	auto_use_uses = FALSE //This is so we can do the thing and disable/enable freely without having to constantly add uses
@@ -135,7 +137,7 @@
 	apc.malfvacate()
 	qdel(src)
 
-//The datum and interface for the malf unlock menu, which lets them choose actions to unlock.
+/// The datum and interface for the malf unlock menu, which lets them choose actions to unlock.
 /datum/module_picker
 	var/temp
 	var/processing_time = 50
@@ -148,21 +150,24 @@
 		if(AM.power_type || AM.upgrade)
 			possible_modules += AM
 
-/datum/module_picker/proc/use(mob/user)
-	var/dat
-	dat += {"<B>Select use of processing time: (currently [processing_time] left.)</B><BR>
-			<HR>
-			<B>Install Module:</B><BR>
-			<I>The number afterwards is the amount of processing time it consumes.</I><BR>"}
-	for(var/datum/ai_module/module in possible_modules)
-		dat += "<A href='byond://?src=[UID()];[module.mod_pick_name]=1'>[module.module_name]</A><A href='byond://?src=[UID()];showdesc=[module.mod_pick_name]'>\[?\]</A> ([module.cost])<BR>"
-	dat += "<HR>"
-	if(temp)
-		dat += "[temp]"
-	var/datum/browser/popup = new(user, "modpicker", "Malf Module Menu", 400, 500)
-	popup.set_content(dat)
-	popup.open()
-	return
+/datum/module_picker/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "MalfModuleMenu", "Malf Module Menu")
+	ui.open()
+
+/datum/module_picker/ui_data(mob/user)
+	var/list/data = list()
+	return data
+
+/datum/module_picker/ui_act(action, params)
+	if(..())
+		return
+	//switch(action)
+
+
+/datum/module_picker/proc/use(mob/living/silicon/ai/user)
+	ui_interact(user)
 
 /datum/module_picker/Topic(href, href_list)
 	..()
@@ -216,23 +221,28 @@
 				temp = AM.description
 	use(usr)
 
-//The base module type, which holds info about each ability.
+/// The base module type, which holds info about each ability.
 /datum/ai_module
 	var/module_name
 	var/mod_pick_name
 	var/description = ""
 	var/cost = 5
-	var/one_purchase = FALSE //If this module can only be purchased once. This always applies to upgrades, even if the variable is set to false.
-	var/power_type = /datum/spell/ai_spell //If the module gives an active ability, use this. Mutually exclusive with upgrade.
-	var/upgrade //If the module gives a passive upgrade, use this. Mutually exclusive with power_type.
-	var/unlock_text = SPAN_NOTICE("Hello World!") //Text shown when an ability is unlocked
-	var/unlock_sound //Sound played when an ability is unlocked
+	/// If this module can only be purchased once. This always applies to upgrades, even if the variable is set to false.
+	var/one_purchase = FALSE
+	/// If the module gives an active ability, use this. Mutually exclusive with upgrade.
+	var/power_type = /datum/spell/ai_spell
+	/// If the module gives a passive upgrade, use this. Mutually exclusive with power_type.
+	var/upgrade
+	/// Text shown when an ability is unlocked.
+	var/unlock_text = SPAN_NOTICE("Hello World!")
+	/// Sound played when an ability is unlocked.
+	var/unlock_sound
 	var/uses = 0
 
 /datum/ai_module/proc/upgrade(mob/living/silicon/ai/AI) //Apply upgrades!
 	return
 
-//Doomsday Device: Starts the self-destruct timer. It can only be stopped by killing the AI completely.
+/// Doomsday Device: Starts the self-destruct timer. It can only be stopped by killing the AI completely.
 /datum/ai_module/nuke_station
 	module_name = "Doomsday Device"
 	mod_pick_name = "nukestation"
