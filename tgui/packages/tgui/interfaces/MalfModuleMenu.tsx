@@ -3,11 +3,8 @@ import {
   Box,
   Button,
   Dropdown,
-  Flex,
   Icon,
-  Input,
   LabeledList,
-  NoticeBox,
   Section,
   Stack,
   Table,
@@ -50,13 +47,15 @@ export const MalfModuleMenu = (properties) => {
             {modules.map((M) => (
               <Stack.Item key={M.uid}>
                 <ImageButton
+                  fluid
                   dmIcon={'icons/mob/actions/actions.dmi'}
                   dmIconState={M.icon_state}
                   disabled={M.cost > power}
-                  tooltip={M.description}
-                  tooltipPosition="bottom"
+                  title={M.name}
                   onClick={() => act('purchase', { uid: M.uid })}
-                />
+                >
+                  {M.description}
+                </ImageButton>
               </Stack.Item>
               ))}
           </Section>

@@ -143,6 +143,7 @@
 	/// CPU processing power
 	var/processing_time = 50
 	var/list/possible_modules
+	var/list/testing2
 
 /datum/module_picker/New(mob/living/silicon/ai/A)
 	if(!istype(A))
@@ -170,23 +171,19 @@
 /datum/module_picker/ui_data(mob/user)
 	var/list/data = list()
 	var/list/module_info = list()
-	for(var/datum/ai_module/M in possible_modules)
-		var/spell M.power_type
-		var/icon_state
-		if(istype(M.power_type, /datum/spell/ai_spell))
-			spell = M.power_type
-			icon_state = spell.action_icon_state
-
-		module_info = list(list(
-			"name" = M.module_name,
-			"description" = M.description,
-			"cost" = M.cost,
-			"uid" = M.UID(),
-			"icon_state" = M.power_type.action_icon_state
-
-		))
+	for(var/module in possible_modules)
+		if(istype(module, /datum/ai_module))
+			var/datum/ai_module/M = module
+			module_info = list(list(
+				"name" = M.module_name,
+				"description" = M.description,
+				"cost" = M.cost,
+				"uid" = M.UID(),
+				"icon_state" = M.power_type.action_icon_state))
 	data["modules"] = module_info
 	data["power"] = processing_time
+
+	testing2 = data
 
 	return data
 
