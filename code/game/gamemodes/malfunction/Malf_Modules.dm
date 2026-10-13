@@ -4,7 +4,7 @@
 // crit percent
 #define MALF_AI_ROLL_CRIT_CHANCE 5
 
-//The malf AI spell subtype. All malf actions are subtypes of this.
+/// The malf AI spell subtype. All malf actions are subtypes of this.
 /datum/spell/ai_spell
 	name = "AI Spell"
 	desc = "You aren't entirely sure what this does, but it's very beepy and boopy."
@@ -117,7 +117,7 @@
 
 /datum/spell/ai_spell/choose_modules/cast(list/targets, mob/living/silicon/ai/user)
 	. = ..()
-	user.malf_picker.use(user)
+	user.malf_picker.ui_interact(user)
 
 /datum/spell/ai_spell/return_to_core
 	name = "Return to Main Core"
@@ -135,86 +135,74 @@
 	apc.malfvacate()
 	qdel(src)
 
-//The datum and interface for the malf unlock menu, which lets them choose actions to unlock.
+/// The datum and interface for the malf unlock menu, which lets them choose actions to unlock.
 /datum/module_picker
+	/// Associated AI
+	var/mob/living/silicon/ai/assigned_ai
 	var/temp
+	/// CPU processing power
 	var/processing_time = 50
 	var/list/possible_modules
 
-/datum/module_picker/New()
+/datum/module_picker/New(mob/living/silicon/ai/A)
+	if(!istype(A))
+		return
+	assigned_ai = A
 	possible_modules = list()
 	for(var/type in subtypesof(/datum/ai_module))
 		var/datum/ai_module/AM = new type
 		if(AM.power_type || AM.upgrade)
 			possible_modules += AM
 
-/datum/module_picker/proc/use(mob/user)
-	var/dat
-	dat += {"<B>Select use of processing time: (currently [processing_time] left.)</B><BR>
-			<HR>
-			<B>Install Module:</B><BR>
-			<I>The number afterwards is the amount of processing time it consumes.</I><BR>"}
-	for(var/datum/ai_module/module in possible_modules)
-		dat += "<A href='byond://?src=[UID()];[module.mod_pick_name]=1'>[module.module_name]</A><A href='byond://?src=[UID()];showdesc=[module.mod_pick_name]'>\[?\]</A> ([module.cost])<BR>"
-	dat += "<HR>"
-	if(temp)
-		dat += "[temp]"
-	var/datum/browser/popup = new(user, "modpicker", "Malf Module Menu", 400, 500)
-	popup.set_content(dat)
-	popup.open()
-	return
+/datum/module_picker/ui_host()
+	return assigned_ai ? assigned_ai : src
 
-/datum/module_picker/Topic(href, href_list)
-	..()
+/datum/spell/ai_spell/module_picker/cast(list/targets, mob/living/silicon/ai/user)
+	. = ..()
+	user.malf_picker.ui_interact(user)
 
-	if(!is_ai(usr))
+/datum/module_picker/ui_interact(mob/user, datum/tgui/ui = null)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "MalfModuleMenu", "Malf Programs Menu")
+		ui.open()
+
+/datum/module_picker/ui_data(mob/user)
+	var/list/data = list()
+	var/list/module_info = list()
+	for(var/datum/ai_module/M in possible_modules)
+		var/spell M.power_type
+		var/icon_state
+		if(istype(M.power_type, /datum/spell/ai_spell))
+			spell = M.power_type
+			icon_state = spell.action_icon_state
+
+		module_info = list(list(
+			"name" = M.module_name,
+			"description" = M.description,
+			"cost" = M.cost,
+			"uid" = M.UID(),
+			"icon_state" = M.power_type.action_icon_state
+
+		))
+	data["modules"] = module_info
+	data["power"] = processing_time
+
+	return data
+
+/datum/module_picker/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	if(..())
 		return
-	var/mob/living/silicon/ai/A = usr
+	. = FALSE
 
+	if(!is_ai(ui.user))
+		return
+	var/mob/living/silicon/ai/A = ui.user
 	if(A.stat == DEAD)
-		to_chat(A, SPAN_WARNING("You are already dead!"))
+		to_chat(A, SPAN_WARNING("You are dead!"))
 		return
 
-	for(var/datum/ai_module/AM in possible_modules)
-		if(href_list[AM.mod_pick_name])
-
-			// Cost check
-			if(AM.cost > processing_time)
-				temp = "You cannot afford this module."
-				break
-
-			var/datum/spell/ai_spell/action = locate(AM.power_type) in A.mob_spell_list
-
-			// Give the power and take away the money.
-			if(AM.upgrade) //upgrade and upgrade() are separate, be careful!
-				AM.upgrade(A)
-				possible_modules -= AM
-				to_chat(A, AM.unlock_text)
-				A.playsound_local(A, AM.unlock_sound, 50, FALSE, use_reverb = FALSE)
-			else
-				if(AM.power_type)
-					if(!action) //Unlocking for the first time
-						var/datum/spell/ai_spell/AC = new AM.power_type
-						A.AddSpell(AC)
-						A.current_modules += new AM.type
-						temp = AM.description
-						if(AM.one_purchase)
-							possible_modules -= AM
-						if(AM.unlock_text)
-							to_chat(A, AM.unlock_text)
-						if(AM.unlock_sound)
-							A.playsound_local(A, AM.unlock_sound, 50, FALSE, use_reverb = FALSE)
-					else //Adding uses to an existing module
-						action.uses += initial(action.uses)
-						action.desc = "[initial(action.desc)] It has [action.uses] use\s remaining."
-						action.build_all_button_icons()
-						temp = "Additional use[action.uses > 1 ? "s" : ""] added to [action.name]!"
-			processing_time -= AM.cost
-
-		if(href_list["showdesc"])
-			if(AM.mod_pick_name == href_list["showdesc"])
-				temp = AM.description
-	use(usr)
+	//switch(action)
 
 //The base module type, which holds info about each ability.
 /datum/ai_module
@@ -223,7 +211,7 @@
 	var/description = ""
 	var/cost = 5
 	var/one_purchase = FALSE //If this module can only be purchased once. This always applies to upgrades, even if the variable is set to false.
-	var/power_type = /datum/spell/ai_spell //If the module gives an active ability, use this. Mutually exclusive with upgrade.
+	var/datum/spell/ai_spell/power_type = /datum/spell/ai_spell //If the module gives an active ability, use this. Mutually exclusive with upgrade.
 	var/upgrade //If the module gives a passive upgrade, use this. Mutually exclusive with power_type.
 	var/unlock_text = SPAN_NOTICE("Hello World!") //Text shown when an ability is unlocked
 	var/unlock_sound //Sound played when an ability is unlocked

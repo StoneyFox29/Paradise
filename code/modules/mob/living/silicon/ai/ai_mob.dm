@@ -284,7 +284,9 @@ GLOBAL_LIST_INIT(ai_verbs_default, list(
 	GLOB.ai_list += src
 	GLOB.shuttle_caller_list += src
 
+	#warn DO NOT FUCKING PUT THIS IN A PR YOU WILL BURN IN HELL FOR ALL ETERNITY
 	add_program_picker()
+	add_malf_picker()
 
 	for(var/I in 1 to 4)
 		stored_locations += "unset" //This is checked in ai_keybinds.dm.
@@ -1628,10 +1630,10 @@ GLOBAL_LIST_INIT(ai_verbs_default, list(
 		apc.update_icon()
 
 /mob/living/silicon/ai/proc/add_malf_picker()
-	to_chat(src, "In the top right corner of the screen you will find the Malfunctions tab, where you can purchase various abilities, from upgraded surveillance to station ending doomsday devices.")
+	to_chat(src, "In the top left corner of the screen you will find the Malfunctions tab, where you can purchase various abilities, from upgraded surveillance to station ending doomsday devices.")
 	to_chat(src, "You are also capable of hacking APCs, which grants you more points to spend on your Malfunction powers. The drawback is that a hacked APC will give you away if spotted by the crew. Hacking an APC takes 60 seconds.")
 	view_core() //A BYOND bug requires you to be viewing your core before your verbs update
-	malf_picker = new /datum/module_picker
+	malf_picker = new /datum/module_picker(src)
 	modules_action = new(malf_picker)
 	AddSpell(modules_action)
 
