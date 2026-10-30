@@ -143,6 +143,8 @@ GLOBAL_LIST_INIT(special_role_times, list(
 	var/viewrange = DEFAULT_CLIENT_VIEWSIZE
 	/// Map preferences for the first past the post system
 	var/list/map_vote_pref_json = list()
+	var/datum/ui_module/general_prefences/perf_ui
+
 
 /datum/preferences/New(client/C, datum/db_query/Q) // Process our query
 	parent = C
@@ -577,45 +579,7 @@ GLOBAL_LIST_INIT(special_role_times, list(
 			dat += "</table>"
 
 		if(TAB_TOGGLES)
-			dat += "<div align='center'><b>Preference Toggles:&nbsp;</b>"
-
-			dat += "<table align='center' width='100%'>"
-
-			// Lookup lists to make our life easier
-			var/static/list/pref_toggles_by_category
-			if(!pref_toggles_by_category)
-				pref_toggles_by_category = list()
-				for(var/toggle_type in GLOB.preference_toggles)
-					var/datum/preference_toggle/toggle = GLOB.preference_toggles[toggle_type]
-					pref_toggles_by_category["[toggle.preftoggle_category]"] += list(toggle)
-
-			for(var/category in GLOB.preference_toggle_groups)
-				dat += "<tr><td colspan=4><hr></td></tr>"
-				dat += "<tr><td colspan=3><h2>[category]</h2></td></tr>"
-				for(var/datum/preference_toggle/toggle as anything in pref_toggles_by_category["[GLOB.preference_toggle_groups[category]]"])
-					dat += "<tr>"
-					dat += "<td style='width: 25%'>[toggle.name]</td>"
-					dat += "<td style='width: 45%'>[toggle.description]</td>"
-					if(toggle.preftoggle_category == PREFTOGGLE_CATEGORY_ADMIN)
-						if(!check_rights(toggle.rights_required, 0, (user)))
-							dat += "<td style='width: 20%'><b>Admin Restricted.</b></td>"
-							dat += "</tr>"
-							continue
-					switch(toggle.preftoggle_toggle)
-						if(PREFTOGGLE_SPECIAL)
-							dat += "<td style='width: 20%'><a href='byond://?_src_=prefs;preference=preference_toggles;toggle=[toggle.UID()];'>Adjust</a></td>"
-						if(PREFTOGGLE_TOGGLE1)
-							dat += "<td style='width: 20%'><a href='byond://?_src_=prefs;preference=preference_toggles;toggle=[toggle.UID()];'>[(toggles & toggle.preftoggle_bitflag) ? SPAN_GOOD("Enabled") : SPAN_BAD("Disabled")]</a></td>"
-						if(PREFTOGGLE_TOGGLE2)
-							dat += "<td style='width: 20%'><a href='byond://?_src_=prefs;preference=preference_toggles;toggle=[toggle.UID()];'>[(toggles2 & toggle.preftoggle_bitflag) ? SPAN_GOOD("Enabled") : SPAN_BAD("Disabled")]</a></td>"
-						if(PREFTOGGLE_TOGGLE3)
-							dat += "<td style='width: 20%'><a href='byond://?_src_=prefs;preference=preference_toggles;toggle=[toggle.UID()];'>[(toggles3 & toggle.preftoggle_bitflag) ? SPAN_GOOD("Enabled") : SPAN_BAD("Disabled")]</a></td>"
-						if(PREFTOGGLE_SOUND)
-							dat += "<td style='width: 20%'><a href='byond://?_src_=prefs;preference=preference_toggles;toggle=[toggle.UID()];'>[(sound & toggle.preftoggle_bitflag) ? SPAN_GOOD("Enabled") : SPAN_BAD("Disabled")]</a></td>"
-						if(PREFTOGGLE_LIGHT)
-							dat += "<td style='width: 20%'><a href='byond://?_src_=prefs;preference=preference_toggles;toggle=[toggle.UID()];'>[(light & toggle.preftoggle_bitflag) ? SPAN_GOOD("Enabled") : SPAN_BAD("Disabled")]</a></td>"
-					dat += "</tr>"
-				dat += "<tr><td colspan=4><br></td></tr>"
+			perf_ui.ui_interact(user)
 
 
 	dat += "<hr><center>"

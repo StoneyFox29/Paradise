@@ -3709,6 +3709,7 @@
 #include "code\modules\tgui\modules\crew_monitor.dm"
 #include "code\modules\tgui\modules\destination_tagger.dm"
 #include "code\modules\tgui\modules\ert_manager.dm"
+#include "code\modules\tgui\modules\general_prefences.dm"
 #include "code\modules\tgui\modules\generic_crew_manifest.dm"
 #include "code\modules\tgui\modules\ghost_hud_panel.dm"
 #include "code\modules\tgui\modules\id_card_modifier.dm"
